@@ -1,0 +1,21 @@
+{
+  "apps": [
+    {
+      "name":               "javascript",
+      "script":             "bin/server.js",
+      "instances":          "1",
+      "node_args":          "",
+      "exec_mode":          "cluster_mode",
+      "max_memory_restart": "2G",
+      "log_file":           "/var/log/node/test-api.log",
+      "error_file":         "/var/log/node/test-api.err.log",
+      "out_file":           "/var/log/node/test-api-out.log",
+      "cwd":                "/js/test-api",
+      "env":                {
+        "PM2_GRACEFUL_LISTEN_TIMEOUT": 1000,
+        "PM2_GRACEFUL_TIMEOUT":        5000,
+        "NODE_ENV":                    "production"
+      }
+    }
+  ]
+}
