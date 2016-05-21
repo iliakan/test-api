@@ -18,6 +18,10 @@ module.exports = {
       }
     }
   },
+  rest: {
+    limit: 100,
+    totalLimit: 10e3
+  },
   host:     '0.0.0.0',
   port:     3000,
   secret:   'mysecret',

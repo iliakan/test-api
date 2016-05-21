@@ -3,6 +3,12 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
+  namespace: {
+    type: String,
+    required: true,
+    index: true
+  },
+
   title: {
     type: String,
     required: "Title is required"

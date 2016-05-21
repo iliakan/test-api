@@ -5,6 +5,11 @@ const validate = require('mongoose-validator');
 const Mailbox = require('./mailbox');
 
 const schema = new mongoose.Schema({
+  namespace: {
+    type: String,
+    required: true,
+    index: true
+  },
   mailbox: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Mailbox',

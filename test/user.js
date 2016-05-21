@@ -6,7 +6,7 @@ const request = require('request-promise');
 var User = require('../models/user');
 
 function getURL(path) {
-  return `http://localhost:3000${path}`;
+  return `http://localhost:3000/test${path}`;
 }
 
 describe("User CRUD", function() {
@@ -42,7 +42,7 @@ describe("User CRUD", function() {
   // load fixtures
   beforeEach(function*() {
     yield User.remove({});
-    existingUser = yield User.create(existingUserData);
+    existingUser = yield User.create(Object.assign({namespace: 'test'}, existingUserData));
   });
 
   describe("POST /users", function() {

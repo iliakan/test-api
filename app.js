@@ -1,5 +1,7 @@
 'use strict';
 
+// http://test-api.javascript.ru/blabla/
+
 const Application = require('./libs/application');
 const app = new Application();
 

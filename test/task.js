@@ -6,7 +6,7 @@ const request = require('request-promise');
 var Task = require('../models/task');
 
 function getURL(path) {
-  return `http://localhost:3000${path}`;
+  return `http://localhost:3000/test${path}`;
 }
 
 describe("Task CRUD", function() {

@@ -4,10 +4,17 @@ const mongoose = require('mongoose');
 const validate = require('mongoose-validator');
 
 const schema = new mongoose.Schema({
+  namespace: {
+    type: String,
+    required: true,
+    index: true
+  },
+
   fullName: {
     type: String,
     required: "Name must be present"
   },
+
   avatarUrl: {
     type: String,
     validate: validate({
@@ -16,6 +23,7 @@ const schema = new mongoose.Schema({
       message: 'Avatar must be an url'
     })
   },
+  
   birthdate: {
     type: Date
   },
