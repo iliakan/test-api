@@ -6,7 +6,32 @@
 </head>
 <body>
 
-DESCRIPTION
+Тестовое API.
+
+<p>Модели: letter, mailbox, task, user.</p>
+
+<p>Схема URL: http://test-api.javascript.ru/NAMESPACE/MODEL</p>
+
+<ul>
+  <li>NAMESPACE – произвольный ключ, например ваше имя пользователя, к которому будут привязаны все сущности.</li>
+  <li>MODEL – название модели во множественном числе.</li>
+</ul>
+
+<p>Виды запросов на примере user:</p>
+
+<ul>
+  <li>GET http://test-api.javascript.ru/ivan/users - получить массив user</li>
+  <li>GET http://test-api.javascript.ru/ivan/users/abcdef - получить user с ID:abcdef</li>
+  <li>POST http://test-api.javascript.ru/ivan/users - создать user, вернуть получившийся объект</li>
+  <li>DELETE http://test-api.javascript.ru/ivan/users/abcdef - удалить user с ID:abcdef</li>
+</ul>
+
+<p>Исходный код: <a href="https://github.com/iliakan/test-api">https://github.com/iliakan/test-api</a>.</p>
+
+<p>Описания моделей см. <a href="https://github.com/iliakan/test-api/tree/master/models">https://github.com/iliakan/test-api/tree/master/models</a>.</p>
+
+<p>Кросс-доменные запросы к сервису разрешены.</p>
+<p>Лимиты: не более 100 экземпляров одной модели на NAMESPACE, а также не более 10000 всего.</p>
 
 </body>
 </html>
