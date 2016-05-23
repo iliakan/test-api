@@ -11,7 +11,7 @@ module.exports = function* (next) {
   }
 
   let origin = url.parse(this.get('Origin'));
-  this.set('Access-Control-Allow-Origin', origin.protocol + '//' + origin.hostname);
+  this.set('Access-Control-Allow-Origin', origin);
   this.set('Access-Control-Allow-Credentials', 'true');
 
   yield* next;
