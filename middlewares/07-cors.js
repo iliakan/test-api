@@ -10,8 +10,7 @@ module.exports = function* (next) {
     return;
   }
 
-  let origin = url.parse(this.get('Origin'));
-  this.set('Access-Control-Allow-Origin', origin);
+  this.set('Access-Control-Allow-Origin', this.get('Origin'));
   this.set('Access-Control-Allow-Credentials', 'true');
 
   yield* next;
