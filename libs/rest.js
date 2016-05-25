@@ -2,6 +2,7 @@
 
 const mongoose = require('./mongoose');
 const Router = require('koa-router');
+const config = require('config');
 
 module.exports = function(Model) {
 
@@ -28,7 +29,7 @@ module.exports = function(Model) {
       paths = paths.filter(p => p != '_id' && p != '__v' && !p.includes('.'));
 
       for (let key in body) {
-        if (paths.includes(key)) {
+        if (~paths.indexOf(key)) {
           data[key] = body[key];
         }
       }
@@ -87,4 +88,3 @@ module.exports = function(Model) {
     .routes();
 
 };
-
