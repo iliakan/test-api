@@ -14,5 +14,5 @@ module.exports = function* (next) {
   this.set('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type');
   this.set('Access-Control-Max-Age', 86400);
 
-  yield* next;
+  this.body = '';
 };
