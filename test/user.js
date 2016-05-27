@@ -12,22 +12,22 @@ function getURL(path) {
 describe("User CRUD", function() {
 
   let existingUserData = {
-    _id: "573f1b79a5fe781a82f4394e",
-    fullName: "John Bull",
+    _id:       "573f1b79a5fe781a82f4394e",
+    fullName:  "John Bull",
     avatarUrl: "http://avatar.com/john.jpg",
-    email: "john@test.ru",
+    email:     "john@test.ru",
     birthdate: new Date(2015, 1, 1).toJSON(),
-    gender: 'M',
-    address: 'address john'
+    gender:    'M',
+    address:   'address john'
   };
 
   let newUserData = {
-    fullName: "Alice Cooper",
+    fullName:  "Alice Cooper",
     avatarUrl: "http://avatar.com/alice.jpg",
-    email: "alice@test.ru",
+    email:     "alice@test.ru",
     birthdate: new Date(2016, 1, 1).toJSON(),
-    gender: 'F',
-    address: 'address alice'
+    gender:    'F',
+    address:   'address alice'
   };
   let existingUser;
 
@@ -48,9 +48,9 @@ describe("User CRUD", function() {
   describe("POST /users", function() {
     it("creates a user", function*() {
       let response = yield request.post({
-        url:    getURL('/users'),
-        json:   true,
-        body:   newUserData
+        url:  getURL('/users'),
+        json: true,
+        body: newUserData
       });
       delete response._id;
       response.should.be.eql(newUserData);
@@ -58,11 +58,11 @@ describe("User CRUD", function() {
 
     it("returns a validation error in case of bad data", function*() {
       let response = yield request.post({
-        url:    getURL('/users'),
-        json:   true,
+        url:                     getURL('/users'),
+        json:                    true,
         resolveWithFullResponse: true,
-        simple: false,
-        body:   {
+        simple:                  false,
+        body:                    {
           // let's try empty
         }
       });
@@ -77,18 +77,18 @@ describe("User CRUD", function() {
   describe("GET /users/:user", function() {
     it("returns the user", function*() {
       let response = yield request.get({
-        url:    getURL('/users/' + existingUser.id),
-        json:   true
+        url:  getURL('/users/' + existingUser.id),
+        json: true
       });
       response.should.be.eql(existingUserData);
     });
 
     it("returns 404 when no such user", function*() {
       let response = yield request.get({
-        url:    getURL('/users/no-such-user'),
+        url:                     getURL('/users/no-such-user'),
         resolveWithFullResponse: true,
-        simple: false,
-        json:   true
+        simple:                  false,
+        json:                    true
       });
       response.statusCode.should.eql(404);
     })
@@ -97,10 +97,29 @@ describe("User CRUD", function() {
   describe("GET /users", function() {
     it("returns all users", function*() {
       let response = yield request.get({
-        url:    getURL('/users'),
-        json:   true
+        url:  getURL('/users'),
+        json: true
       });
       response.should.be.eql([existingUserData]);
+    });
+  });
+
+  describe("PATCH /users/:user", function() {
+    it("updates the user", function*() {
+      let patch = {
+        address: "new address",
+        gender:  'F'
+      };
+
+      let response = yield request.patch({
+        url:  getURL('/users/573f1b79a5fe781a82f4394e'),
+        json: true,
+        body: patch
+      });
+
+      response.should.eql(
+          Object.assign({}, existingUserData, patch)
+      );
     });
   });
 

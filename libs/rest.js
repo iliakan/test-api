@@ -56,7 +56,7 @@ module.exports = function(Model) {
         }
       }
 
-      return yield model.save();
+      yield model.save();
     }
   }
 
@@ -97,6 +97,7 @@ module.exports = function(Model) {
       })
       .patch('/:' + modelName, function*() {
         yield* patch(this[modelName], this.request.body);
+        this.body = format(this[modelName]);
       })
       .get('/:' + modelName, function*() {
         this.body = format(this[modelName]);
