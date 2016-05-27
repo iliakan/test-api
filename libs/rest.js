@@ -102,6 +102,10 @@ module.exports = function(Model) {
       .get('/:' + modelName, function*() {
         this.body = format(this[modelName]);
       })
+      .del('/', function*() {
+        yield Model.remove({});
+        this.body = 'ok';
+      })
       .del('/:' + modelName, function*() {
         yield this[modelName].remove();
         this.body = 'ok';
