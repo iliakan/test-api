@@ -23,7 +23,7 @@ const schema = new mongoose.Schema({
       message: 'Avatar must be an url'
     })
   },
-  
+
   birthdate: {
     type: Date
   },
@@ -45,6 +45,7 @@ const schema = new mongoose.Schema({
   }
 });
 
+schema.plugin(require('../libs/restPlugin'));
 
 module.exports = mongoose.model('User', schema);
 

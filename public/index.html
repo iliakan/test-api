@@ -6,32 +6,202 @@
 </head>
 <body>
 
-Тестовое API.
+Сервис для работы с тестовыми данными API. Позволяет создавать и удалять объекты на сервере.
 
-<p>Модели: letter, mailbox, task, user.</p>
+<h2>Схема запросов</h2>
 
-<p>Схема URL: http://test-api.javascript.ru/NAMESPACE/MODEL</p>
+<p>Схема запросов: http://test-api.javascript.ru/v1/NAMESPACE/MODEL/ID</p>
+
+<dl>
+  <dt>NAMESPACE*</dt>
+  <dd>Выбранное вами имя, к которому будут привязаны все данные. Например, <code>iliakan</code> или <code>vasyapetrov</code>. Обязательно.</dd>
+  <dt>MODEL</dt>
+  <dd>Тип объектов, с которыми хотите работать, во множественном числе: letters, mailboxes, tasks, users. Может отсутствовать.</dd>
+  <dt>ID</dt>
+  <dd>Идентификатор конкретного объекта, если нужен.</dd>
+</dl>
+
+<h2>Все запросы (кратко)</h2>
 
 <ul>
-  <li>NAMESPACE – произвольный ключ, например ваше имя пользователя, к которому будут привязаны все сущности.</li>
-  <li>MODEL – название модели во множественном числе.</li>
+  <li>GET /iliakan – вернуть всю базу</li>
+  <li>DELETE /iliakan – удалить всю базу</li>
+  <li>POST /iliakan – добавить много разных объектов одним запросом</li>
+  <li>GET /iliakan/users – вернуть всех пользователей</li>
+  <li>DELETE /iliakan/users – удалить всех пользователей</li>
+  <li>POST /iliakan/users – добавить одного пользователя</li>
+  <li>GET /iliakan/users/:id – вернуть пользователя с данным _id</li>
+  <li>DELETE /iliakan/users/:id – удалить пользователя с данным _id</li>
+  <li>PATCH /iliakan/users/:id – обновить пользователя с данным _id</li>
 </ul>
 
-<p>Виды запросов на примере user:</p>
+<h2>Все запросы (развёрнуто)</h2>
+
+<h3>По всей базе</h3>
+
+<dl>
+  <dt>GET <a href="http://test-api.javascript.ru/v1/iliakan">http://test-api.javascript.ru/v1/iliakan</a></dt>
+  <dd>Возвращает все объекты из базы, пример:
+
+  <pre>
+    {
+      users: [
+        { _id: ..., fullName: ... },
+        { _id: ..., fullName: ... }
+      ],
+      tasks: [ ... ]
+    }
+  </pre>
+  </dd>
+  <dt>DELETE <a href="http://test-api.javascript.ru/v1/iliakan">http://test-api.javascript.ru/v1/iliakan</a></dt>
+  <dd>Удалить все объекты из базы.</dd>
+  <dt>POST <a href="http://test-api.javascript.ru/v1/iliakan">http://test-api.javascript.ru/v1/iliakan</a></dt>
+  <dd>Добавляет объекты в базу, пример тела запроса:
+  <pre>
+    {
+      users: [
+        { fullName: ..., email: ... },
+        { fullName: ..., email: ... }
+      ],
+      tasks: [ ... ]
+    }
+  </pre>
+    Возвращает добавленные объекты (с <code>_id</code>).
+  </dd>
+
+
+</dl>
+
+<h3>По всем моделям</h3>
+
+<dl>
+  <dt>GET <a href="http://test-api.javascript.ru/v1/iliakan/users">http://test-api.javascript.ru/v1/iliakan/users</a></dt>
+  <dd>Возвращает все объекты данного типа, пример:
+
+  <pre>
+    [
+      { _id: ..., fullName: ... },
+      { _id: ..., fullName: ... }
+    ]
+  </pre>
+  </dd>
+  <dt>DELETE <a href="http://test-api.javascript.ru/v1/iliakan/users">http://test-api.javascript.ru/v1/iliakan/users</a></dt>
+  <dd>Удалить все объекты данного типа из базы.</dd>
+  <dt>POST <a href="http://test-api.javascript.ru/v1/iliakan/users">http://test-api.javascript.ru/v1/iliakan/users</a></dt>
+  <dd>Добавляет объекты в базу, пример тела запроса:
+  <pre>
+    [
+      { fullName: ..., email: ... },
+      { fullName: ..., email: ... }
+    ]
+  </pre>
+    Возвращает добавленные объекты (с <code>_id</code>).
+  </dd>
+
+
+</dl>
+
+
+<h3>По конкретному типу объектов</h3>
+
+<dl>
+  <dt>GET <a href="http://test-api.javascript.ru/v1/iliakan/users">http://test-api.javascript.ru/v1/iliakan/users</a></dt>
+  <dd>Возвращает все объекты данного типа, пример:
+
+  <pre>
+    [
+      { _id: ..., fullName: ... },
+      { _id: ..., fullName: ... }
+    ]
+  </pre>
+  </dd>
+  <dt>DELETE <a href="http://test-api.javascript.ru/v1/iliakan/users">http://test-api.javascript.ru/v1/iliakan/users</a></dt>
+  <dd>Удалить все объекты данного типа из базы.</dd>
+  <dt>POST <a href="http://test-api.javascript.ru/v1/iliakan/users">http://test-api.javascript.ru/v1/iliakan/users</a></dt>
+  <dd>Добавляет объекты в базу, пример тела запроса:
+  <pre>
+    [
+      { fullName: ..., email: ... },
+      { fullName: ..., email: ... }
+    ]
+  </pre>
+    Возвращает массив добавленных объектов (с <code>_id</code>).
+  </dd>
+
+
+</dl>
+
+
+<h3>По конкретному объекту</h3>
+
+<dl>
+  <dt>GET <a href="http://test-api.javascript.ru/v1/iliakan/users/abcdef">http://test-api.javascript.ru/v1/iliakan/users/abcdef</a></dt>
+  <dd>Возвращает объект с данным <code>_id</code> или 404, если его нет, пример:
+
+  <pre>
+    { _id: ..., fullName: ... },
+  </pre>
+  </dd>
+  <dt>DELETE <a href="http://test-api.javascript.ru/v1/iliakan/users/abcdef">http://test-api.javascript.ru/v1/iliakan/users/abcdef</a></dt>
+  <dd>Удалить данный объект из базы, возвращает 404, если его нет.</dd>
+  <dt>PATCH <a href="http://test-api.javascript.ru/v1/iliakan/users/abcdef">http://test-api.javascript.ru/v1/iliakan/users/abcdef</a></dt>
+  <dd>Обновить свойства данного объекта, пример тела запроса:
+  <pre>
+    { fullName: ..., email: ... },
+  </pre>
+    Возвращает обновлённый объект.
+  </dd>
+
+</dl>
+
+<h2>Типы объектов</h2>
+
+<p>Пользователь <code>user</code></p>
 
 <ul>
-  <li>GET http://test-api.javascript.ru/ivan/users - получить массив user</li>
-  <li>GET http://test-api.javascript.ru/ivan/users/abcdef - получить user с ID:abcdef</li>
-  <li>POST http://test-api.javascript.ru/ivan/users - создать user, вернуть получившийся объект</li>
-  <li>DELETE http://test-api.javascript.ru/ivan/users/abcdef - удалить user с ID:abcdef</li>
+  <li><code>String fullName*</code> -- имя</li>
+  <li><code>String email*</code> -- email</li>
+  <li><code>String avatarUrl</code> -- URL аватара</li>
+  <li><code>Date birthdate</code> -- дата рождения</li>
+  <li><code>String gender</code> -- пол: "M" или "F"</li>
+  <li><code>String address</code> -- адрес</li>
+</ul>
+
+
+<p>Задача <code>task</code></p>
+
+<ul>
+  <li><code>String title*</code> -- название</li>
+  <li><code>Array[{class, title}] tags</code> -- теги, массив объектов вида <code>{String class, String title}</code> с классом и названием тега.</li>
+</ul>
+
+<p>Почтовый ящик <code>mailbox</code></p>
+
+<ul>
+  <li><code>String title*</code> -- название</li>
+</ul>
+
+<p>Письмо <code>letter</code></p>
+
+<ul>
+  <li><code>ObjectId mailbox*</code> -- ID почтового ящика mailbox</li>
+  <li><code>String subject*</code> -- Тема письма</li>
+  <li><code>String body*</code> -- Содержание письма</li>
+  <li><code>String to*</code> -- Кому</li>
+</ul>
+
+<h2>Ограничения</h2>
+
+<ul>
+  <li>Кросс-доменные: отсутствуют, любые запросы откуда угодно.</li>
+  <li>Лимиты: не более 100 экземпляров одной модели на NAMESPACE, а также не более 10000 всего.</li>
 </ul>
 
 <p>Исходный код: <a href="https://github.com/iliakan/test-api">https://github.com/iliakan/test-api</a>.</p>
 
 <p>Описания моделей см. <a href="https://github.com/iliakan/test-api/tree/master/models">https://github.com/iliakan/test-api/tree/master/models</a>.</p>
 
-<p>Кросс-доменные запросы к сервису разрешены.</p>
-<p>Лимиты: не более 100 экземпляров одной модели на NAMESPACE, а также не более 10000 всего.</p>
+<p>Сервис находится в альфе!</p>
 
 </body>
 </html>

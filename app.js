@@ -9,7 +9,7 @@ const config = require('config');
 
 app.keys = [config.secret];
 
-require('./libs/mongoose');
+const mongoose = require('./libs/mongoose');
 
 const path = require('path');
 const fs = require('fs');
@@ -23,8 +23,13 @@ middlewares.forEach(function(middleware) {
 
 const rest = require('./libs/rest');
 
-['user', 'task', 'mailbox', 'letter'].forEach(model => {
-  app.use(rest(require(`./models/${model}`)));
-});
+fs.readdirSync('./models').forEach(file => require(`./models/${file}`));
+
+for(let modelName in mongoose.models) {
+  app.use(rest(mongoose.models[modelName]));
+}
+
+app.use(require('./libs/restAll')());
+
 
 module.exports = app;

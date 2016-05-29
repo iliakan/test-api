@@ -28,6 +28,7 @@ const schema = new mongoose.Schema({
   }
 });
 
+schema.plugin(require('../libs/restPlugin'));
 
 module.exports = mongoose.model('Task', schema);
 
