@@ -11,14 +11,9 @@ module.exports = function*(next) {
     if (e.status) {
       this.status = e.status;
 
-      // could use template methods to render error page
-      if (preferredType == 'json') {
-        this.body = {
-          error: e.message
-        };
-      } else {
-        this.body = e.message;
-      }
+      this.body = {
+        error: e.message
+      };
 
     } else if (e.name == 'ValidationError') {
 
@@ -30,13 +25,9 @@ module.exports = function*(next) {
         errors[field] = e.errors[field].message;
       }
 
-      if (preferredType == 'json') {
-        this.body = {
-          errors: errors
-        };
-      } else {
-        this.body = "Malformed data.";
-      }
+      this.body = {
+        errors: errors
+      };
 
     } else {
       this.body = "Error 500";
