@@ -57,8 +57,8 @@ module.exports = function(Model) {
     })
     // PATCH /:id
     .patch('/:' + modelName, function*() {
-      yield* Model.restPatch(this[modelName], this.request.body);
-      this.body = Model.restFormat(this[modelName]);
+      let patched = yield* Model.restPatch(this[modelName], this.request.body);
+      this.body = Model.restFormat(patched);
     })
     // GET /:id
     .get('/:' + modelName, function*() {

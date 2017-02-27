@@ -3,9 +3,9 @@
 module.exports = function(schema, options) {
 
   options = options || {};
-  
+
   schema.statics.restEnabled = true;
-  
+
   // get fields for rest requests
   schema.statics.getRestKeys = options.getRestKeys || function() {
       let paths = Object.keys(schema.paths);
@@ -45,7 +45,7 @@ module.exports = function(schema, options) {
       }
     }
 
-    yield model.save();
+    return yield model.save();
 
   };
 
