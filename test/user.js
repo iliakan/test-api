@@ -2,7 +2,7 @@
 
 const app = require('../app');
 const request = require('request-promise');
-
+const should = require('should');
 var User = require('../models/user');
 
 function getURL(path) {
@@ -52,6 +52,10 @@ describe("User CRUD", function() {
         json: true,
         body: newUserData
       });
+
+      let newUser = yield User.findById(response._id);
+      should.exist(newUser);
+
       delete response._id;
       response.should.be.eql(newUserData);
     });
@@ -68,8 +72,8 @@ describe("User CRUD", function() {
       });
 
       response.statusCode.should.eql(400);
-      response.body.errors.email.should.exist;
-      response.body.errors.fullName.should.exist;
+      should.exist(response.body.errors.email);
+      should.exist(response.body.errors.fullName);
     });
 
   });
@@ -91,7 +95,7 @@ describe("User CRUD", function() {
         json:                    true
       });
       response.statusCode.should.eql(404);
-    })
+    });
   });
 
   describe("GET /users", function() {
@@ -117,9 +121,15 @@ describe("User CRUD", function() {
         body: patch
       });
 
+      // check response
       response.should.eql(
           Object.assign({}, existingUserData, patch)
       );
+
+      // check db
+      let user = yield User.findById(response._id);
+      user.gender.should.equal('F');
+      user.address.should.equal('new address');
     });
   });
 

@@ -4,14 +4,11 @@ const mongoose = require('mongoose');
 
 module.exports = function*() {
 
-  var db;
-
-  if (mongoose.connection.readyState == 1) { // connected
-    db = mongoose.connection.db;
-  } else {
-    db = yield new Promise(res => mongoose.connection.on('open', res));
+  if (mongoose.connection.readyState == 2) { // connecting
+    yield new Promise(resolve => mongoose.connection.on('open', resolve));
   }
 
+  let db = mongoose.connection.db;
   yield* clearDatabase(db);
 
   yield* ensureIndexes();
