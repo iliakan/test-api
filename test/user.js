@@ -4,6 +4,7 @@ const app = require('../app');
 const request = require('request-promise');
 const should = require('should');
 var User = require('../models/user');
+const log = require('../libs/log')();
 
 function getURL(path) {
   return `http://localhost:3000/test${path}`;
@@ -47,11 +48,15 @@ describe("User CRUD", function() {
 
   describe("POST /users", function() {
     it("creates a user", function*() {
-      let response = yield request.post({
+      let options = {
+        method: 'POST',
         url:  getURL('/users'),
         json: true,
         body: newUserData
-      });
+      };
+
+      log.debug("request", options);
+      let response = yield request(options);
 
       let newUser = yield User.findById(response._id);
       should.exist(newUser);

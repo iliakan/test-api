@@ -4,6 +4,8 @@ const mongoose = require('./mongoose');
 const Router = require('koa-router');
 const config = require('config');
 
+const log = require('./log')();
+
 module.exports = function(Model) {
 
   let modelName = Model.modelName; // "User"
@@ -12,6 +14,7 @@ module.exports = function(Model) {
     prefix: '/:namespace/' + Model.collection.name // "users"
   })
     .param(modelName, function*(id, next) {
+      log.debug("param id", id);
       try {
         // isValid does not help: it's always true if string length=12
         mongoose.Types.ObjectId.createFromHexString(id);
@@ -29,7 +32,6 @@ module.exports = function(Model) {
     })
     // POST / => create
     .post('/', function*() {
-
       let totalCount = yield Model.count();
       if (totalCount >= config.rest.allLimit) {
         this.throw(429, `Can't create: Overall limit reached: ${totalCount} total exist`);
